@@ -1,0 +1,66 @@
+<html>
+<style>
+#bola {background-color: gold; position: absolute; left: 0; height: 20px; width: 20px; top: 0; border-radius: 50%;} /* Estilo de la bola */
+#pala {background-color: cyan; position: absolute; top: 0; height: 180px; width: 20px;} /* Estilo de la pala */
+</style>
+
+<div id = "bola">
+</div>
+<div id = "pala">
+</div>
+<script>
+var pBolaX = 0; // Posición inicial de la bola
+var pBolaY = 200; // Posición inicial de la bola
+var direccionX = 1; // Dirección inicial de la bola
+var direccionY = 1; // Dirección inicial de la bola
+var speed = 10; // Velocidad de la bola
+var pPalaX = 20; // Posición inicial de la pala
+var pPalaY = 0; // Posición inicial de la pala
+
+function checkMov (){ // Función de movimiento de la bola
+var juegoOff = false;
+if (juegoOff == false){
+	if(pBolaX >= window.innerWidth){direccionX = - 1;} // Si la bola llega al borde derecho, rebotará hacia la izquierda
+	if((pBolaX <= pPalaX)&&(pBolaY >= pPalaY)&&(pBolaY <= pPalaY + 180)&&(pBolaX > pPalaX - 180)){
+		direccionX = 1;
+		speed += 5;
+	} // Si la bola choca con la pala, rebotará hacia la derecha
+	if(pBolaY >= window.innerHeight){direccionY = - 1;} // Si la bola llega al borde inferior, rebotará hacia arriba
+	if(pBolaY <= 0){direccionY = 1;} // Si la bola llega al borde superior, rebotará hacia abajo
+	if(pBolaX < 0) juegoOff = true; // Si la bola pasa la pala y llega al borde izquierdo, el juego terminará
+	pBolaX = pBolaX + speed * direccionX; // Actualiza la posición de la bola
+	bola.style.left = pBolaX; // Aplica la nueva posición de la bola
+	pBolaY = pBolaY + speed * direccionY; // Actualiza la posición de la bola
+	bola.style.top = pBolaY; // Aplica la nueva posición de la bola
+
+	document.addEventListener('keydown', function(event) { // Función de movimiento de la pala
+		if(event.key == "s"){ // Si se presiona la tecla "s"
+			if(pPalaY <= window.innerHeight - 180){ // Si la pala no ha llegado al borde inferior
+			pPalaY = pPalaY + 10; // Mueve la pala hacia abajo
+			pala.style.top = pPalaY; // Aplica la nueva posición de la pala
+			}
+		}
+		if(event.key == "w"){ // Si se presiona la tecla "w"
+			if(pPalaY >= 0){ // Si la pala no ha llegado al borde superior
+			pPalaY = pPalaY - 10; // Mueve la pala hacia arriba
+			pala.style.top = pPalaY; // Aplica la nueva posición de la pala
+			}
+		}
+		if(event.key == "d"){ // Si se presiona la tecla "d"
+			if(pPalaX >= 0){ // Si la pala no ha llegado al borde derecho
+			pPalaX = pPalaX + 10; // Mueve la pala hacia la derecha
+			pala.style.left = pPalaX; // Aplica la nueva posición de la pala
+			}
+		}
+		if(event.key == "a"){ // Si se presiona la tecla "a"
+			if(pPalaX >= 0){ // Si la pala no ha llegado al borde izquierdo
+			pPalaX = pPalaX - 10; // Mueve la pala hacia la izquierda
+			pala.style.left = pPalaX; // Aplica la nueva posición de la pala
+			}
+		}
+}}});
+
+setInterval(checkMov, 100) // El juego se actualiza cada 100 milisegundos
+</script>
+
+</html>
